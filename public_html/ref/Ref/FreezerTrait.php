@@ -1,0 +1,6 @@
+<?php
+//Морозильник
+trait FreezerTrait
+{
+  
+}

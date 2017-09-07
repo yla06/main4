@@ -3,12 +3,19 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/model/model/ModelAbstract.php";
 
 abstract class DBAbstract extends ModelAbstract
 {
+  /**
+   * Свойство для хранения линка соединения с БД
+   * @var resource mysql
+   */
   protected static $_connect;
   public static $host, $user, $pass, $db;
 
   public function __construct(  )
   {
+    // Вызов родительского метода __construct в ModelAbstract
     parent::__construct();
+
+    // Коннектимся к БД
     self::connectDB();
   }
 
