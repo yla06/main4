@@ -1,0 +1,5 @@
+.select, .textarea, .file {
+  height: 40px;
+  line-height: 40px;
+  width: 100%;
+}

@@ -156,6 +156,17 @@ class Aids extends ValidateAbstract
   }
 }
 
+class Token extends ValidateAbstract
+{
+  public function check( $data )
+  {
+    if ( session_id() != $data )
+      return 'Токен безопасности устарел. Обновите страницу';
+
+    return true;
+  }
+}
+
 class Id extends ValidateAbstract
 {
   public function check( $data )
@@ -267,6 +278,48 @@ class Password extends ValidateAbstract
   }
 }
 
+class Image extends ValidateAbstract
+{
+  protected $_type = ValidateAbstract::TYPE_FILE;
+
+  public function check( $data )
+  {
+    if ( $data == [] )
+      return 'Нет файла';
+
+    else if ( $data['error'] != 0 )
+    {
+      switch ( $data['error'] )
+      {
+        case 1 : return 'Ваш файл слишком большой#1'; break;
+        case 2 : return 'Ваш файл слишком большой#2'; break;
+        case 3 : return 'Error #3'; break;
+        case 4 : return 'Выберите файл для загрузки. Файл не выбран'; break;
+        case 6 : return 'Error #6'; break;
+        case 7 : return 'Случилась системная ошибка. Попробуйте загрузить файл позже'; break;
+        case 8 : return 'Error #8'; break;
+      }
+    }
+
+    else if ( $data['size'] > 2*1024*1024 )
+      return 'Файл слишком большой. Максимально 2 метра';
+
+    else
+    {
+      $a_ext = [ 'png', 'jpeg', 'jpg' ];
+      $ext = mb_strtolower( pathinfo( $data['name'], PATHINFO_EXTENSION ) );
+
+      if ( ! in_array( $ext, $a_ext ) )
+        return 'Данный файл не разрешается к загрузке. ';
+
+      else if ( false === $image = getimagesize( $data['tmp_name'] ) )
+        return 'Данный файл не есть картинкой';
+
+      else if ( $image[0] > 8000 or $image[1] > 6000 )
+        return 'Максимальный размер фото 8000х6000';
+    }
+  }
+}
 class Date extends ValidateAbstract
 {
   public function check( $data )
@@ -301,17 +354,39 @@ class Int extends ValidateAbstract
 
   public function check( $data )
   {
+
     if ( $this -> _attr['required'] === false and $data === '' )
       return true;
 
     if ( $this -> _attr['required'] === true and $data === '' )
       return 'Вы не передали данные';
 
+    if ( ! ctype_digit( $data ) )
+      return "Вы должны ввести число";
+
     if ( $data < $this -> _attr['min'] )
       return "Ваш текст должен быть минимум {$this -> _attr['min']} символов";
 
     if ( $data > $this -> _attr['max']  )
       return "Ваш текст должен быть максимум {$this -> _attr['max']} символов";
+
+    return true;
+  }
+}
+
+class Price extends ValidateAbstract
+{
+  protected $_attr = [
+    'required'  => true,
+  ];
+
+  public function check( $data )
+  {
+    if ( ! is_numeric( $data ) )
+      return 'Цена должна быть числом';
+
+    if ( $data < 0 or $data > 999999 )
+      return 'Цена должна быть числом в диапазоне от 0 до 999999';
 
     return true;
   }
@@ -383,6 +458,11 @@ class Field
   public function getData(  )
   {
     return $this -> _data;
+  }
+
+  public function setData( $data )
+  {
+    return $this -> _data = $data;
   }
 
   /**
@@ -477,7 +557,7 @@ class Field
           ? $data[$this -> _name] : [];
         break;
       case ValidateAbstract::TYPE_FILE:
-        $this -> _data = ( isset( $data[$this -> _name] ) ) ? $data[$this -> _name] : [];
+        $this -> _data = ( isset( $_FILES[$this -> _name] ) ) ? $_FILES[$this -> _name] : [];
         break;
       default : exit( 'Error! Undefined type' );
     }
@@ -581,5 +661,16 @@ class Group
    public function getFieldError( $name )
    {
      return $this -> _fields[$name] -> getError();
+   }
+
+   public function fill( array $a_data )
+   {
+     foreach ( $a_data as $name => $value )
+     {
+       if ( isset( $this -> _fields[$name] ) )
+         $this -> _fields[$name] -> setData( $value );
+     }
+
+     return $this;
    }
 }

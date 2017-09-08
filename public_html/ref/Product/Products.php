@@ -14,7 +14,7 @@ class Milk extends ProductVolume
 {
   public function __construct( $name, $qv )
   {
-    parent::__construct( $name, $qv, ProductGeneralInterface::PRODUCT_TYPE_VOLUME );
+    parent::__construct( $name, $qv, ProductGeneralInterface::PRODUCT_TYPE_VOLUME, true );
   }
 }
 

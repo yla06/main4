@@ -6,7 +6,7 @@ require_once 'GeneralInterface.php';
 require_once 'FridgeTrait.php';
 require_once 'FreezerTrait.php';
 
-abstract class FFAbstract implements FridgeInterface
+abstract class FFAbstract extends GeneralAbstract implements FridgeInterface
 {
   use FridgeTrait;
   use FreezerTrait;

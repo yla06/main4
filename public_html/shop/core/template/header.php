@@ -25,6 +25,7 @@
 	<link href="assets/stylesheets/spr.css" rel="stylesheet" type="text/css" media="all">
 	<link href="assets/stylesheets/slideshow-fade.css" rel="stylesheet" type="text/css" media="all">
 	<link href="assets/stylesheets/cs.animate.css" rel="stylesheet" type="text/css" media="all">
+	<link href="assets/stylesheets/reset.css" rel="stylesheet" type="text/css" media="all">
 
 	<script type="text/javascript" src="assets/javascripts/jquery.min.js"></script>
 	<script type="text/javascript" src="assets/javascripts/classie.js"></script>

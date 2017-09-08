@@ -2,6 +2,7 @@
 require_once 'Product/Products.php';
 require_once 'Basket/Basket.php';
 require_once 'Power/Power.php';
+require_once 'Ref/FFs.php';
 
 
 
@@ -27,9 +28,6 @@ echo '</pre>';
 echo '<pre>';
 print_r( $milk2 );
 echo '</pre>';
-
-
-
 
 
 $basket1 = new Basket();
@@ -61,3 +59,12 @@ echo '<hr />';
 
 Power::on();
 echo ( Power::getPower() ) ? 'Эл.вкл.' : 'Эл.выкл!';
+
+echo '<hr />';
+$ariston = new Ariston; //Freezer
+$Indesit = new Indesit; //FF
+$atlant  = new Atlant;  //Fridge
+
+$ariston -> setProduct( $beer1 );
+$ariston -> setProducts( [$beer3, $milk2] );
+$ariston -> setbasket( $basket1 );
