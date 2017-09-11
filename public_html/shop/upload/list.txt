@@ -1,0 +1,2 @@
+error | Тестовое уведомление | /var/www/phpstep/data/www/main4.phpstep.com.ua/public_html/exception.php | 139
+error | Тестовое уведомление | /var/www/phpstep/data/www/main4.phpstep.com.ua/public_html/exception.php | 139

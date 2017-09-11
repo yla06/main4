@@ -1,0 +1,50 @@
+Дата: 08/09/2017 18:13:45
+IP: 193.239.234.88
+Host: 193.239.234.88
+ENV:
+
+
+SERVER:
+'UNIQUE_ID' = 'WbLd2bm7iPZlB9YUNYATfwAAAAY'
+'PERL5LIB' = '/usr/share/awstats/lib:/usr/share/awstats/plugins'
+'HTTP_HOST' = 'main4.phpstep.com.ua'
+'HTTP_X_FORWARDED_PROTO' = 'http'
+'HTTP_X_FORWARDED_PORT' = '80'
+'HTTP_CONNECTION' = 'close'
+'HTTP_USER_AGENT' = 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0'
+'HTTP_ACCEPT' = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+'HTTP_ACCEPT_LANGUAGE' = 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
+'HTTP_ACCEPT_ENCODING' = 'gzip, deflate'
+'HTTP_COOKIE' = 'SL_lng_from=auto; SL_lng_to=ru; SLloc=false'
+'HTTP_DNT' = '1'
+'HTTP_X_COMPRESS' = '1'
+'HTTP_UPGRADE_INSECURE_REQUESTS' = '1'
+'HTTP_CACHE_CONTROL' = 'max-age=0'
+'PATH' = '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin'
+'SERVER_SIGNATURE' = ''
+'SERVER_SOFTWARE' = 'Apache/2.4.6 (CentOS) OpenSSL/1.0.1e-fips mod_fcgid/2.3.9 PHP/5.6.29'
+'SERVER_NAME' = 'main4.phpstep.com.ua'
+'SERVER_ADDR' = '127.0.0.1'
+'SERVER_PORT' = '80'
+'REMOTE_ADDR' = '193.239.234.88'
+'DOCUMENT_ROOT' = '/var/www/phpstep/data/www/main4.phpstep.com.ua/public_html'
+'REQUEST_SCHEME' = 'http'
+'CONTEXT_PREFIX' = ''
+'CONTEXT_DOCUMENT_ROOT' = '/var/www/phpstep/data/www/main4.phpstep.com.ua/public_html'
+'SERVER_ADMIN' = 'webmaster@main4.phpstep.com.ua'
+'SCRIPT_FILENAME' = '/var/www/phpstep/data/www/main4.phpstep.com.ua/public_html/exception.php'
+'REMOTE_PORT' = '34118'
+'GATEWAY_INTERFACE' = 'CGI/1.1'
+'SERVER_PROTOCOL' = 'HTTP/1.0'
+'REQUEST_METHOD' = 'GET'
+'QUERY_STRING' = ''
+'REQUEST_URI' = '/exception.php'
+'SCRIPT_NAME' = '/exception.php'
+'PHP_SELF' = '/exception.php'
+'REQUEST_TIME_FLOAT' = '1504894425.309'
+'REQUEST_TIME' = '1504894425'
+
+REQUEST:
+
+Класификация ошибки:
+Тестовое уведомление; (Файл:/var/www/phpstep/data/www/main4.phpstep.com.ua/public_html/exception.php / Линия:139)

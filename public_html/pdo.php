@@ -6,9 +6,9 @@ try
     'test1',
     '12345q',
     [
-      PDO::ATTR_ERRMODE            => PDO::ERRMODE_SILENT,
-      PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8', time_zone = '+00:00'",
-      PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+//      PDO::ATTR_ERRMODE            => PDO::ERRMODE_SILENT,
+//      PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8', time_zone = '+00:00'",
+//      PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
     ]
   );
 }
@@ -16,6 +16,24 @@ catch ( PDOException $e )
 {
   exit( 'Подключение не удалось: ' . $e -> getMessage() );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //2
 //$result = $pdo -> query( "SELECT * FROM `blog`" );
