@@ -1,116 +1,105 @@
 <?php
-try
+class DB
 {
-  $pdo = new PDO(
-    'mysql:host=localhost;dbname=test1',
-    'test1',
-    '12345q',
-    [
-//      PDO::ATTR_ERRMODE            => PDO::ERRMODE_SILENT,
-//      PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8', time_zone = '+00:00'",
-//      PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-    ]
-  );
+  private static $_pdo;
+
+  public static function query( $sql, array $pl = [] )
+  {
+    self::connect();
+
+    try
+    {
+      $stm = self::$_pdo -> prepare( $sql );
+      $stm -> execute( $pl );
+
+      return $stm;
+    }
+    catch ( PDOException $e )
+    {
+      self::log( $e -> getMessage() );
+
+      exit( 'Ошибка' );
+    }
+  }
+
+  public static function log( $desc )
+  {
+    $pdo = new PDO( 'sqlite:'. $_SERVER['DOCUMENT_ROOT'] . '/test_log.sqlite' );
+
+    $sql = "INSERT INTO `error_log`
+              ( `error_type`, `error_desc`,
+              `error_date`, `error_server`, `error_request` )
+              VALUES ( :type, :desc, :date, :server, :request )";
+
+    $input_param = array(
+      'type' => 'SQL',
+      'desc' => $desc,
+      'date' => time(  ),
+      'server'  => serialize( $_SERVER ),
+      'request' => serialize( $_REQUEST ),
+    );
+
+    $prep = $pdo -> prepare( $sql );
+    $a = $prep -> execute( $input_param );
+
+    echo '<pre>';
+    print_r( $a );
+    echo '</pre>';
+    exit( 'Stoped: <b>' . mf_get_spath() . '</b>' );
+
+    return true;
+  }
+
+  protected static function connect(  )
+  {
+    if ( isset( self::$_pdo ) )
+      return self::$_pdo;
+
+    try
+    {
+      self::$_pdo = new PDO(
+        'mysql:host=localhost;dbname=test1',
+        'test1',
+        '12345q',
+        [
+          PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+          PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8', time_zone = '+00:00'",
+          PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+        ]
+      );
+    }
+    catch ( PDOException $e )
+    {
+      exit( 'Подключение не удалось: ' . $e -> getMessage() );
+    }
+
+    return self::$_pdo;
+  }
 }
-catch ( PDOException $e )
+
+class  Foo
 {
-  exit( 'Подключение не удалось: ' . $e -> getMessage() );
+  public function test(  )
+  {
+    $result = DB::query( "ERR SELECT * FROM `blog`" );
+
+    echo '<pre>';
+    print_r( $result -> fetchAll() );
+    echo '</pre>';
+
+    $result = DB::query( "UPDATE `blog` SET `title` = '". time()."' WHERE `id` = 13" );
+
+    echo '<pre>';
+    print_r( $result -> rowCount(  ) );
+    echo '</pre>';
+
+    $result = DB::query( "SELECT * FROM `blog` WHERE `id` = ? ", [13] );
+
+    echo '<pre>';
+    print_r( $result -> fetch() );
+    echo '</pre>';
+  }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//2
-//$result = $pdo -> query( "SELECT * FROM `blog`" );
-//
-////while ( $row = $result -> fetch(  ) )
-////{
-////  echo '<pre>';
-////  print_r( $row );
-////  echo '</pre>';
-////}
-//
-//
-//echo '<pre>';
-//print_r( $result -> fetchAll() );
-//echo '</pre>';
-//exit;
-
-$id = ( isset( $_GET[ 'id' ] ) and is_string( $_GET[ 'id' ] ) ) ? $_GET[ 'id' ] : 0;
-
-////4
-echo "SELECT * FROM `blog` WHERE `id` = {$id}";
-echo '<pre>';
-print_r("SELECT * FROM `blog` WHERE `id` = '12 or id = 13'    ");
-echo '</pre>';
-
-$stm = $pdo -> prepare( "SELECT * FROM `blog` WHERE `id` = '12 or id = 13'    " );
-$stm -> execute( [$id] );
-echo '<pre>';
-print_r( $stm -> fetchAll(  ) );
-echo '</pre>';
-exit;
-
-////5
-//$stm = $pdo -> prepare( "SELECT * FROM `blog` WHERE `id` = :id OR `id` = :id2 " );
-//$stm -> execute( ['id2' => 111, 'id' => 12] );
-//
-//$all = $stm -> fetch(  );
-//echo '<pre>';
-//print_r( $all );
-//echo '</pre>';
-
-////7
-//$stm = $pdo -> prepare( 'SELECT `title`, `text` FROM `blog` WHERE `id` = ?' );
-//$stm -> execute( [11] );
-//
-//echo '<pre>';
-//print_r( $stm -> fetchColumn( 0 ) );
-//echo '</pre>';
-
-
-//$limit = 2;
-//$start = 1;
-//$stm = $pdo -> prepare( "SELECT * FROM `blog` LIMIT :start, :limit" );
-//
-//$stm -> bindValue( 'start', $start, PDO::PARAM_INT );
-//$stm -> bindValue( 'limit', $limit, PDO::PARAM_INT );
-//
-//$stm -> execute(  );
-//echo '<pre>';
-//print_r( $stm -> fetchAll() );
-//echo '</pre>';
-
-//$pdo -> exec( "UPDATE `blog` SET `title` = 'aaaaaaaaaaa' WHERE `id` = 11 " );
-
-
-//$stm = $pdo -> prepare( "UPDATE `blog` SET `title` = 'aaaaaaaaaaa' WHERE `id` = ?" );
-//$stm -> execute( [11] );
-//
-//
-//$pdo -> beginTransaction();
-//$stm = $pdo -> exec( "UPDATE `blog` SET `title` = '" . time(  ) . "' WHERE `id` = 5" );
-//
-//echo time(  );
-//echo '<hr />';
-//echo $rand = rand( 0, 1 );
-//
-//if ( $rand )
-//  $pdo -> commit();
-//else
-//  $pdo -> rollBack( );
+$o = new Foo;
+$o -> test(  );
