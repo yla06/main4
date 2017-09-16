@@ -1,109 +1,109 @@
 <?php
-class Foo
-{
-  public $a = 1;
-  public $b = 2;
-  public $c = 3;
-
-//  public function setA( $data )
+//class Foo
+//{
+//  public $a = 1;
+//  public $b = 2;
+//  public $c = 3;
+//
+////  public function setA( $data )
+////  {
+////    $this -> a = $data;
+////  }
+////
+////  public function getA(  )
+////  {
+////    return $this -> a;
+////  }
+////
+////  public function __call( $name, $arguments )
+////  {
+////    $arr = [ 'a', 'b', 'c' ];
+////    $name_var = mb_strtolower( substr( $name, 3 ) );
+////
+////    if ( 0 === strpos( $name, 'get' ) )
+////    {
+////      if ( in_array( $name_var, $arr ) )
+////        return $this -> $name_var;
+////    }
+////
+////    if ( 0 === strpos( $name, 'set' ) )
+////    {
+////      if ( in_array( $name_var, $arr ) )
+////        $this -> $name_var = ( isset( $arguments[0] ) ? $arguments[0] : null );
+////    }
+////  }
+////
+////  public static function __callStatic( $name, $arguments )
+////  {
+////    echo '<pre>';
+////    print_r( $name );
+////    echo '</pre>';
+////
+////    echo '<pre>';
+////    print_r( $arguments );
+////    echo '</pre>';
+////  }
+////
+////  public function __set( $name, $value )
+////  {
+////    $arr = [ 'c', 'd' ];
+////
+////    if ( in_array( $name, $arr ) )
+////      $this -> $name = $value;
+////  }
+////
+////  public function __get( $name )
+////  {
+////    return 20;
+////  }
+////
+////  public function __isset( $name )
+////  {
+////    echo 'isset';
+////    echo '<pre>';
+////    print_r( $name );
+////    echo '</pre>';
+////
+////  }
+////
+////  public function __unset( $name )
+////  {
+////    echo 'unset';
+////    echo '<pre>';
+////    print_r( $name );
+////    echo '</pre>';
+////  }
+//  public function __sleep()
 //  {
-//    $this -> a = $data;
+//    return ['a','b', 'c'];
 //  }
 //
-//  public function getA(  )
+//  public function __debugInfo()
 //  {
-//    return $this -> a;
+//    return [
+//      'a' => 777,
+//      'b' => 888,
+//    ];
 //  }
+//}
 //
-//  public function __call( $name, $arguments )
-//  {
-//    $arr = [ 'a', 'b', 'c' ];
-//    $name_var = mb_strtolower( substr( $name, 3 ) );
+//$o = new Foo;
 //
-//    if ( 0 === strpos( $name, 'get' ) )
-//    {
-//      if ( in_array( $name_var, $arr ) )
-//        return $this -> $name_var;
-//    }
-//
-//    if ( 0 === strpos( $name, 'set' ) )
-//    {
-//      if ( in_array( $name_var, $arr ) )
-//        $this -> $name_var = ( isset( $arguments[0] ) ? $arguments[0] : null );
-//    }
-//  }
-//
-//  public static function __callStatic( $name, $arguments )
-//  {
-//    echo '<pre>';
-//    print_r( $name );
-//    echo '</pre>';
-//
-//    echo '<pre>';
-//    print_r( $arguments );
-//    echo '</pre>';
-//  }
-//
-//  public function __set( $name, $value )
-//  {
-//    $arr = [ 'c', 'd' ];
-//
-//    if ( in_array( $name, $arr ) )
-//      $this -> $name = $value;
-//  }
-//
-//  public function __get( $name )
-//  {
-//    return 20;
-//  }
-//
-//  public function __isset( $name )
-//  {
-//    echo 'isset';
-//    echo '<pre>';
-//    print_r( $name );
-//    echo '</pre>';
-//
-//  }
-//
-//  public function __unset( $name )
-//  {
-//    echo 'unset';
-//    echo '<pre>';
-//    print_r( $name );
-//    echo '</pre>';
-//  }
-  public function __sleep()
-  {
-    return ['a','b', 'c'];
-  }
-
-  public function __debugInfo()
-  {
-    return [
-      'a' => 777,
-      'b' => 888,
-    ];
-  }
-}
-
-$o = new Foo;
-
-echo '<pre>';
-var_dump( $o );
-echo '</pre>';
-exit( 'Stoped: <b>' . mf_get_spath() . '</b>' );
-
 //echo '<pre>';
-//print_r( $o -> a );
+//var_dump( $o );
 //echo '</pre>';
-//isset( $o -> a ) ;
-//unset( $o -> c ) ;
-//echo '<pre>';
-//print_r( $o );
-//echo '</pre>';
-
-exit;
+//exit( 'Stoped: <b>' . mf_get_spath() . '</b>' );
+//
+////echo '<pre>';
+////print_r( $o -> a );
+////echo '</pre>';
+////isset( $o -> a ) ;
+////unset( $o -> c ) ;
+////echo '<pre>';
+////print_r( $o );
+////echo '</pre>';
+//
+//exit;
 #################1
 //class Foo
 //{
@@ -442,43 +442,43 @@ exit;
 //$o -> change();
 //echo $o -> getFoo(  );
 
-//trait TraitFoo
-//{
-//  protected $foo = 1;
-//
-//  public function setFoo( $data )
-//  {
-//    $this -> foo = $data;
-//  }
-//
-//  public function getFoo()
-//  {
-//    return $this -> foo;
-//  }
-//}
-//
-//class A
-//{
-//  use TraitFoo;
-//
-//  public function calc( $numer )
-//  {
-//    echo $this -> foo + $numer;
-//  }
-//}
-//
-//class B
-//{
-//  use TraitFoo;
-//
-//  public function tree(  )
-//  {
-//    echo $this -> foo + 15;
-//  }
-//}
-//
-//$a = new A;
-//$a -> calc( 10 );
-//
-//$b = new B;
-//$b -> tree(  );
+trait TraitFoo
+{
+  protected $foo = 1;
+
+  public function setFoo( $data )
+  {
+    $this -> foo = $data;
+  }
+
+  public function getFoo()
+  {
+    return $this -> foo;
+  }
+}
+
+class A
+{
+  use TraitFoo;
+
+  public function calc( $numer )
+  {
+    echo $this -> foo + $numer;
+  }
+}
+
+class B
+{
+  use TraitFoo;
+  
+  public function tree(  )
+  {
+    echo $this -> foo + 15;
+  }
+}
+
+$a = new A;
+$a -> calc( 10 );
+
+$b = new B;
+$b -> tree(  );

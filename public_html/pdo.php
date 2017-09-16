@@ -16,36 +16,34 @@ class DB
     }
     catch ( PDOException $e )
     {
-      self::log( $e -> getMessage() );
+      self::log( $e );
 
       exit( 'Ошибка' );
     }
   }
 
-  public static function log( $desc )
+  public static function log( $e )
   {
     $pdo = new PDO( 'sqlite:'. $_SERVER['DOCUMENT_ROOT'] . '/test_log.sqlite' );
+    $pdo -> setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 
     $sql = "INSERT INTO `error_log`
-              ( `error_type`, `error_desc`,
+              ( `error_type`, `error_desc`, `error_file`, `error_file_line`,
               `error_date`, `error_server`, `error_request` )
-              VALUES ( :type, :desc, :date, :server, :request )";
+              VALUES ( :type, :desc, :file, :line, :date, :server, :request )";
 
     $input_param = array(
       'type' => 'SQL',
-      'desc' => $desc,
+      'desc' => $e -> getMessage(),
+      'file' => $e -> getFile(),
+      'line' => $e -> getLine(),
       'date' => time(  ),
       'server'  => serialize( $_SERVER ),
       'request' => serialize( $_REQUEST ),
     );
 
     $prep = $pdo -> prepare( $sql );
-    $a = $prep -> execute( $input_param );
-
-    echo '<pre>';
-    print_r( $a );
-    echo '</pre>';
-    exit( 'Stoped: <b>' . mf_get_spath() . '</b>' );
+    $prep -> execute( $input_param );
 
     return true;
   }
