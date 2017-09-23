@@ -1,9 +1,30 @@
 <?php
 set_time_limit(60);
+$cof_sum = 620;
+$original = imagecreatefromjpeg( 'a3.jpg' );
+$orig_x = imagesx( $original );
+$orig_y = imagesy( $original );
 
-$image = imagecreatefrompng( 'images.png' );
-//$image = imagecreatefromjpeg( '1.jpg' );
-//$image = imagecreatefromjpeg( '2.jpg' );
+$wh = 200;
+
+$ratio = $orig_x / $orig_y;
+
+if ( $orig_x > $orig_y )
+{
+  $new_x = $wh;
+  $new_y = $wh / $ratio;
+}
+else
+{
+  $new_x = $wh * $ratio;
+  $new_y = $wh;
+}
+
+$image = imagecreatetruecolor( $new_x, $new_y );
+imagecopyresampled( $image, $original, 0, 0, 0, 0, $new_x, $new_y, $orig_x, $orig_y );
+
+
+
 
 $realw = imagesx( $image );
 $realh = imagesy( $image );
@@ -49,7 +70,7 @@ for( $y = 0, $sy = 0; $y < $realh; $y++ )
 
     $sum = array_sum( imagecolorsforindex( $image, imagecolorat( $image, $x, $y ) ) );
 
-    if ( $sum < 650 )
+    if ( $sum < $cof_sum )
     {
       $vertical[$x][]   = $y;
       $horizontal[$y][] = $x;
@@ -74,8 +95,10 @@ $horw = imagesx( $hor );
 
 imagefill( $hor, 0, 0, COLOR_WHITE );
 
-foreach ( $horizontal_group as $y => $group )
+for( $y = 0; $y <= $bigh; $y++ )
 {
+  $group = isset( $horizontal_group[$y] ) ? $horizontal_group[$y] : [];
+
   if ( $y % 5 === 0 or $y == 0 )
   {
     imageSetThickness( $hor, 2 );
@@ -95,14 +118,15 @@ foreach ( $horizontal_group as $y => $group )
   }
 }
 
-
 $vert  = imagecreatetruecolor( $bigw, $maxcountx * 15 );
 $verth = imagesy( $vert );
 
 imagefill( $vert, 0, 0, COLOR_WHITE );
 
-foreach ( $vertical_group as $x => $group )
+for( $x = 0; $x <= $bigw; $x++ )
 {
+  $group = isset( $vertical_group[$x] ) ? $vertical_group[$x] : [];
+
   if ( $x % 5 === 0 or $x == 0 )
   {
     imageSetThickness( $vert, 2 );
