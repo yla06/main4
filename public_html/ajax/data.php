@@ -47,16 +47,18 @@ else if ( $type == 'edit' )
 else if ( $type == 'delete' )
 {
   $a_data  = $a_error = [ ];
+  //1
   $a_data['file_name'] = ( isset( $_POST['file_name'] ) and is_string( $_POST['file_name'] ) ) ? $_POST['file_name'] : '';
-
+//2
   if ( empty( $a_data['file_name'] ) )
     $a_error['file_name'] = 'Имя файла для удаления не передано';
 
   $file_path = "files/{$a_data['file_name']}";
-
+//3
   if ( ! file_exists( $file_path ) )
     $a_error['file_name'] = 'Файл не существует';
 
+  //4
   if ( $a_error )
     returnError( 'Найдено ошибки', $a_error );
 
@@ -70,12 +72,12 @@ else if ( $type == 'add' )
 {
   $a_data  = $a_error = [ ];
   $a_data['file_name'] = ( isset( $_POST['file_name'] ) and is_string( $_POST['file_name'] ) ) ? $_POST['file_name'] : '';
-
+  //2
   if ( empty( $a_data['file_name'] ) )
     $a_error['file_name'] = 'имя не введено';
 
   $file_path = "files/{$a_data['file_name']}.txt";
-
+  //3
   if ( file_exists( $file_path ) )
     $a_error['file_name'] = 'Файл существует';
 

@@ -11,11 +11,8 @@ if ( $action == 'index_json' )
   {
     $data = [ ];
 
-    if ( mysql_num_rows( $result ) )
-    {
-      while ( $row    = mysql_fetch_assoc( $result ) )
-        $data[] = $row;
-    }
+    while ( $row    = mysql_fetch_assoc( $result ) )
+      $data[] = $row;
 
     return_data( $data );
   }
@@ -64,7 +61,7 @@ else if ( $action == 'edit' )
     if ( mysql_query( $sql ) )
     {
       if ( mysql_affected_rows() )
-        return_data( 'Данные блога отредарованы' );
+        return_data( 'Данные блога изменены' );
       else
         return_error( 'Запись не отредактирована' );
     }
@@ -103,6 +100,7 @@ else if ( $action == 'add' )
   if ( $a_error == [ ] )
   {
     $sql = "INSERT INTO `" . DB_PREFIX . "blog` SET
+      `blog_user_id` = '" . mysql_real_escape_string( $_SESSION[ 'auth' ] ) . "',
       `blog_title` = '" . mysql_real_escape_string( $a_data[ 'blog_title' ] ) . "',
       `blog_text`  = '" . mysql_real_escape_string( $a_data[ 'blog_text' ] ) . "'";
 
@@ -117,7 +115,7 @@ else if ( $action == 'add' )
         return_error( 'Запись не добавлена' );
     }
     else
-      return_error( 'Ой. Попробуйте позже' );
+      return_error( 'Ой. Попробуйте позже' . mysql_error() );
   }
   else
     return_error( 'В форме найдены ошибки:', $a_error );
@@ -138,7 +136,7 @@ else if ( $action == 'delete' )
   if ( $token != session_id() )
     return_error( 'Токен не найден' );
 
-  $sql = "DELETE FROM `" . DB_PREFIX . "blog` WHERE `blog_id` = '" . intval( $blog_id ) . "' ";
+  $sql = "DELETE FROM `" . DB_PREFIX . "blog` WHERE `blog_user_id` = '". intval( $_SESSION['auth']) ."' AND  `blog_id` = '" . intval( $blog_id ) . "' ";
 
   if ( mysql_query( $sql ) )
   {
@@ -153,11 +151,7 @@ else if ( $action == 'delete' )
 
 else if ( $action == 'index' )
 {
-  $sql = "SELECT `b`.*, `u`.`user_login`, `u`.`count`, `u`.`blog_text` AS `aaa`
-    FROM `" . DB_PREFIX . "blog` AS `b`
-    INNER JOIN `" . DB_PREFIX . "user` AS `u`
-      ON `u`.`user_id` = `b`.`blog_user_id`
-    ";
+  $sql = "SELECT * FROM `" . DB_PREFIX . "blog`";
 
   if ( $result = mysql_query( $sql ) )
   {
@@ -165,15 +159,9 @@ else if ( $action == 'index' )
     {
       while ( $row = mysql_fetch_assoc( $result ) )
       {
-        echo '<h2>' . htmlspecialchars( $row[ 'user_login' ] ) . '(' . htmlspecialchars( $row[ 'count' ] ) . ')</h2>';
         echo '<a href="view.php?blog_id=' . $row[ 'blog_id' ] . '">Просмотр</a> |';
-
-        if ( isset( $_SESSION[ 'auth' ] ) )
-        {
-          echo '<a href="edit.php?blog_id=' . $row[ 'blog_id' ] . '">Редактировать</a> |';
-          echo '<a href="delete.php?blog_id=' . $row[ 'blog_id' ] . '&token=' . session_id() . '">Удалить</a>';
-        }
-
+        echo '<a href="edit.php?blog_id=' . $row[ 'blog_id' ] . '">Редактировать</a> |';
+        echo '<a href="delete.php?blog_id=' . $row[ 'blog_id' ] . '&token=' . session_id() . '">Удалить</a>';
         echo '<br />';
         echo '<h2>' . htmlspecialchars( $row[ 'blog_title' ] ) . '</h2>';
         echo '<div>' . htmlspecialchars( $row[ 'blog_text' ] ) . '</div><hr />';

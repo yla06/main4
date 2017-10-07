@@ -25,7 +25,7 @@
     <script>
       function loadGet() {
         var xhr = new XMLHttpRequest();
-        xhr.open( "GET", 'req.php?get=true&foo=1&bar=22', true );
+        xhr.open( "GET", 'req.php?get1=true&foo=1&bar=22', true );
         xhr.send();
 
         xhr.onreadystatechange = function () { // (3)
@@ -45,7 +45,7 @@
 
         xhr.open( "POST", 'req.php?a=1', true )
         xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' )
-        xhr.send( 'post=true&foo=111&bar=333' );
+        xhr.send( 'post2=true&foo=111&bar=333' );
 
         xhr.onreadystatechange = function () {
           if ( xhr.readyState != 4 )
@@ -78,6 +78,11 @@
             method: 'POST',
             //dataType: 'json',
             data: { ajax: 'true', foo: 432, bar: 543543 },
+
+            beforeSend: function (  ) {
+              alert( 123 );
+            },
+
             success: function ( resp ) {
               alert( resp );
             },
@@ -103,12 +108,13 @@
             }
 
             alert( resp.info );
-            addListElement( $( '#add' ).find( 'input[name="file_name"]' ).val() );
+            addListElement( $( '#add' ).find( 'input[name="file_name"]' ).val(), 1 );
           }, 'json' );
         } );
 
         $( '#getList' ).on( 'click', function () {
           $.post( 'data.php', { type: 'getlist' }, function ( resp ) {
+
             $( '#content' ).empty();
 
             $.each( resp, function ( a, b ) {
@@ -118,12 +124,16 @@
         } );
 
         $( document ).on( 'click', '.deleteFile', function () {
+          button = $(this);
           name = $(this).attr('data-id');
           box = $(this).parent().parent();
 
           $.post( 'data.php', { type: 'delete', file_name: name }, function ( resp ) {
             if ( resp.status == 0 )
+            {
+              button.css({width:'50', height:'50', borderRadius: '50%'});
               return alert( resp.info );
+            }
 
             alert( resp.info );
             box.remove();
@@ -133,7 +143,7 @@
         $( document ).on( 'submit', '.editFile', function (e) {
           e.preventDefault();
           form = $(this);
-
+          
           $.post( 'data.php', form.serialize() + '&type=edit', function ( resp ) {
             if ( resp.status == 0 )
             {

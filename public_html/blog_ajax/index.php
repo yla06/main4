@@ -1,6 +1,8 @@
 <?php
 require_once 'bootstrap.php';
 
+$_SESSION['auth'] = 8;
+
 echo '<script
 			  src="https://code.jquery.com/jquery-3.1.1.min.js"
 			  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
@@ -54,7 +56,7 @@ getInfoBlock(  );
     $(document).on('click', '.edit', function(e){
       e.preventDefault();
       var id = $(this).attr('data-id');
-      var box = $(this).closest('div');
+      var box = $(this).closest('.post');
 
       $('#edit-box').dialog();
       $('#blog-id').val(id)
@@ -109,15 +111,15 @@ getInfoBlock(  );
       if ( confirm('Удалить?') )
       {
         $.post( 'ajax.php?action=delete', {blog_id: id, token: token}, function( resp ){
-        if ( resp.status == '1')
-        {
-          box.slideUp(1000);
-        }
-        else
-        {
-          alert(resp.info);
-        }
-      }, 'json');
+          if ( resp.status == '1')
+          {
+            box.slideUp(1000);
+          }
+          else
+          {
+            alert(resp.info);
+          }
+        }, 'json');
       }
     });
 
@@ -168,5 +170,13 @@ getInfoBlock(  );
       else
         alert( resp.info );
     }, 'json' );
+
+
+
+//    $.get( 'ajax.php', {action:'index'}, function( resp ){
+//      $('#posts').append( resp );
+//    } );
+
+
   } );
 </script>
