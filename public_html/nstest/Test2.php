@@ -6,7 +6,7 @@ const FOO = 2;
 
 function foo()
 {
-  echo \Test3\FOO;
+  echo \FOO;
 }
 
 class Foo

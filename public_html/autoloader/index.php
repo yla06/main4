@@ -57,7 +57,7 @@ new class4;
 function myautoload1( $classname )
 {
   echo '<b>1</b>';
-
+    
   if ( $classname == 'class1' )
     require 'Classes/class1.php';
 
