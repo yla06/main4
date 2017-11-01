@@ -6,7 +6,7 @@ const FOO = 2;
 
 function foo()
 {
-  echo \FOO;
+  echo 2;
 }
 
 class Foo
@@ -14,7 +14,7 @@ class Foo
 
   public function __construct()
   {
-    echo 2;
+    echo \FOO;
   }
 
 }

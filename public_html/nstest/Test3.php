@@ -14,7 +14,7 @@ class Foo
 
   public function __construct()
   {
-    echo 3;
+    echo \Test2\FOO;
   }
 
 }
